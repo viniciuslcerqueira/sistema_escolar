@@ -32,4 +32,37 @@ class AlunoBusiness {
         else ResponseEntity.notFound().build()
     }
 
+    @PostMapping
+    fun cadastrar(@RequestBody aluno: Aluno): Aluno = alunoRepository.save(aluno)
+
+    @PutMapping("/{id}")
+    fun atualizar(@PathVariable id: Long, @RequestBody alunoAtualizado: Aluno): ResponseEntity<Aluno> {
+        val existente = alunoRepository.findById(id)
+        return if (existente.isPresent) {
+            val aluno = existente.get().apply {
+                nome = alunoAtualizado.nome
+                cpf = alunoAtualizado.cpf
+                email = alunoAtualizado.email
+                telefone = alunoAtualizado.telefone
+                cep = alunoAtualizado.cep
+                logradouro = alunoAtualizado.logradouro
+                bairro = alunoAtualizado.bairro
+                cidade = alunoAtualizado.cidade
+                uf = alunoAtualizado.uf
+            }
+            ResponseEntity.ok(alunoRepository.save(aluno))
+        } else {
+            ResponseEntity.notFound().build()
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    fun deletar(@PathVariable id: Long): ResponseEntity<Void> {
+        return if (alunoRepository.existsById(id)) {
+            alunoRepository.deleteById(id)
+            ResponseEntity.noContent().build()
+        } else {
+            ResponseEntity.notFound().build()
+        }
+    }
 }
