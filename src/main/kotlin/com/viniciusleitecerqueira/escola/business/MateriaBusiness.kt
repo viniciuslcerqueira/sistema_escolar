@@ -30,5 +30,34 @@ class MateriaBusiness {
         else ResponseEntity.notFound().build()
     }
 
+    @PostMapping
+    fun cadastrar(@RequestBody materia: Materia): Materia =
+        materiaRepository.save(materia)
 
-}
+
+    @PutMapping("/{id}")
+    fun atualizar(@PathVariable id: Long, @RequestBody atualizada: Materia): ResponseEntity<Materia> {
+        val existente = materiaRepository.findById(id)
+        return if (existente.isPresent) {
+            val materia = existente.get().apply {
+                nome = atualizada.nome
+                cargaHoraria = atualizada.cargaHoraria
+                cursoId = atualizada.cursoId
+            }
+            ResponseEntity.ok(materiaRepository.save(materia))
+        } else {
+            ResponseEntity.notFound().build()
+        }
+    }
+
+        @DeleteMapping("/{id}")
+        fun deletar(@PathVariable id: Long): ResponseEntity<Void> {
+            return if (materiaRepository.existsById(id)) {
+                materiaRepository.deleteById(id)
+                ResponseEntity.noContent().build()
+            } else {
+                ResponseEntity.notFound().build()
+            }
+        }
+    }
+
