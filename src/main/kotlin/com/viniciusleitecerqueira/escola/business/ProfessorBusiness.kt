@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/professores")
-class ProfessorRepository {
+class ProfessorBusiness {
 
     @Autowired
     lateinit var professorRepository: ProfessorRepository
