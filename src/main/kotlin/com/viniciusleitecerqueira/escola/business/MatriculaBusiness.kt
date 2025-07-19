@@ -32,5 +32,34 @@ class MatriculaBusiness {
         else ResponseEntity.notFound().build()
     }
 
+    @PostMapping
+    fun cadastrar(@RequestBody matricula: Matricula): Matricula =
+        matriculaRepository.save(matricula)
+
+    @PutMapping("/{id}")
+    fun atualizar(@PathVariable id: Long, @RequestBody atualizada: Matricula): ResponseEntity<Matricula> {
+        val existente = matriculaRepository.findById(id)
+        return if (existente.isPresent) {
+            val matricula = existente.get().apply {
+                alunoId = atualizada.alunoId
+                cursoId = atualizada.cursoId
+                dataMatricula = atualizada.dataMatricula
+            }
+            ResponseEntity.ok(matriculaRepository.save(matricula))
+        } else {
+            ResponseEntity.notFound().build()
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    fun deletar(@PathVariable id: Long): ResponseEntity<Void> {
+        return if (matriculaRepository.existsById(id)) {
+            matriculaRepository.deleteById(id)
+            ResponseEntity.noContent().build()
+        } else {
+            ResponseEntity.notFound().build()
+        }
+    }
+
 
 }
