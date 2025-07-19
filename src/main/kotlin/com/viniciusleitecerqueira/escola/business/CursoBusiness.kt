@@ -1,9 +1,7 @@
 package com.viniciusleitecerqueira.escola.business
 
 import com.viniciusleitecerqueira.escola.repositories.CursoRepository
-import com.viniciusleitecerqueira.escola.repositories.MateriaRepository
 import com.viniciusleitecerqueira.escola.beans.Curso
-import com.viniciusleitecerqueira.escola.beans.Materia
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
